@@ -1,5 +1,7 @@
 package org.example.librarymanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,15 +22,19 @@ public class BorrowRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
 
     @NotNull
+    @JsonProperty("borrow_date")
     private Date borrowDate;
 
+    @JsonProperty("return_date")
     private Date returnDate;
 
     @ManyToOne
     @JoinColumn(name = "library_member_id")
+    @JsonBackReference
     private LibraryMember libraryMember;
 
     @ManyToOne
