@@ -14,14 +14,17 @@ public class MembershipCardService {
         this.membershipCardRepository = membershipCardRepository;
     }
 
+    //get all cards
     public List<MembershipCard> getAllCards() {
         return membershipCardRepository.findAll();
     }
 
+    //Get card by ID
     public Optional<MembershipCard> getCardById(Long id) {
         return membershipCardRepository.findById(id);
     }
 
+    //Create card
     public MembershipCard createCard(MembershipCard card) {
         return membershipCardRepository.save(card);
     }
@@ -41,6 +44,7 @@ public class MembershipCardService {
         }
     }
 
+    //delete Card
     public void deleteCard(Long id) {
         MembershipCard membershipCard = null;
         try {

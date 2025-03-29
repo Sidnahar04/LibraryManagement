@@ -11,5 +11,6 @@ import java.util.List;
 public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long> {
     List<BorrowRecord> findByBookIdAndReturnDateIsNull(Long bookId);
     List<BorrowRecord> findByLibraryMember(LibraryMember member);
+    List<BorrowRecord> findByReturnDateIsNull();
 }
 

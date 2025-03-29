@@ -4,10 +4,14 @@ import org.example.librarymanagement.entity.Book;
 import org.example.librarymanagement.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/books")
@@ -22,7 +26,15 @@ public class BookController {
     @GetMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<List<Book>> getAllBooks() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAuthenticated = authentication != null
+                && authentication.isAuthenticated()
+                && !"anonymousUser".equals(authentication.getPrincipal());
+
+        List<Book> books = bookService.getAllBooks(isAuthenticated);
+        return ResponseEntity.ok(books);
     }
 
     //Get book by ID

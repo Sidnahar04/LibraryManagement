@@ -38,8 +38,8 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/books/available").permitAll()
-                        .requestMatchers("/api/authors").permitAll()
+                        .requestMatchers("/authors").permitAll()
+                        .requestMatchers("/books").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

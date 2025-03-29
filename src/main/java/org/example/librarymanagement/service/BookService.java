@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -17,22 +18,32 @@ public class BookService {
         this.borrowRecordService = borrowRecordService;
     }
 
-    // ✅ Get all books
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    //  Get all books
+    public List<Book> getAllBooks(boolean isAuthenticated) {
+        List<Book> allBooks = bookRepository.findAll();
+
+        if (isAuthenticated) {
+            return allBooks; // Authenticated users see all books
+        } else {
+            // Return only books that are NOT borrowed
+            List<Long> borrowedBookIds = borrowRecordService.getCurrentlyBorrowedBookIds();
+            return allBooks.stream()
+                    .filter(book -> !borrowedBookIds.contains(book.getId()))
+                    .collect(Collectors.toList());
+        }
     }
 
-    // ✅ Get a book by ID
+    // Get a book by ID
     public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
-    // ✅ Create a new book
+    //  Create a new book
     public Book createBook(Book book) {
         return bookRepository.save(book);
     }
 
-    // ✅ Update a book
+    //  Update a book
     public Book updateBook(Long id, Book updatedBook) {
         return bookRepository.findById(id).map(book -> {
             book.setTitle(updatedBook.getTitle());

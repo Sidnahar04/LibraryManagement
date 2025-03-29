@@ -14,6 +14,7 @@ import org.example.librarymanagement.repository.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BorrowRecordService {
@@ -94,5 +95,12 @@ public class BorrowRecordService {
 
     public boolean isBookCurrentlyBorrowed(Long bookId) {
         return !borrowRecordRepository.findByBookIdAndReturnDateIsNull(bookId).isEmpty();
+    }
+
+    public List<Long> getCurrentlyBorrowedBookIds() {
+        return borrowRecordRepository.findByReturnDateIsNull()
+                .stream()
+                .map(borrowRecord -> borrowRecord.getBook().getId())
+                .collect(Collectors.toList());
     }
 }
