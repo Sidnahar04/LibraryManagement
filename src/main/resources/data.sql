@@ -49,3 +49,26 @@ INSERT INTO borrow_record (borrow_date, return_date, library_member_id, book_id)
                                                                                      ('2024-03-20', NULL, 3, 3), -- Charlie borrowed "The Art of Computer Programming"
                                                                                      ('2024-03-25', NULL, 4, 4), -- David borrowed "The Algorithm Design Manual"
                                                                                      ('2024-03-28', '2024-04-10', 5, 5); -- Emma borrowed "Algorithm Design" and returned it
+
+-- Assign roles to users (user_id and role_id values may vary - adjust based on your auto-increment IDs)
+INSERT INTO user_roles (user_id, role_id) VALUES
+(1, 1), -- admin1 is ADMIN
+(2, 2), -- librarian1 is LIBRARIAN
+(3, 3), -- member1 is MEMBER
+(4, 3), -- member2 is MEMBER
+(5, 3); -- member3 is MEMBER
+
+insert users with BCrypt-hashed passwords (all passwords = "password123"):
+
+INSERT INTO users (username, email, password, library_member_id) VALUES
+-- Admin (no library member)
+('admin1', 'admin@library.com', '$2a$10$xJwL5v.nG3jU7J7O9dQY.e5Jk7GZ7Lc1j8VnJZ6Jt1fLdK5vY6XbO', NULL),
+
+-- Librarian (no library member)
+('librarian1', 'librarian@library.com', '$2a$10$xJwL5v.nG3jU7J7O9dQY.e5Jk7GZ7Lc1j8VnJZ6Jt1fLdK5vY6XbO', NULL),
+
+-- Members (linked to library_members)
+('member1', 'member1@library.com', '$2a$10$xJwL5v.nG3jU7J7O9dQY.e5Jk7GZ7Lc1j8VnJZ6Jt1fLdK5vY6XbO', 1),
+('member2', 'member2@library.com', '$2a$10$xJwL5v.nG3jU7J7O9dQY.e5Jk7GZ7Lc1j8VnJZ6Jt1fLdK5vY6XbO', 2),
+('member3', 'member3@library.com', '$2a$10$xJwL5v.nG3jU7J7O9dQY.e5Jk7GZ7Lc1j8VnJZ6Jt1fLdK5vY6XbO', 3);
+

@@ -18,6 +18,7 @@ public class LibraryMemberService {
         this.libraryMemberRepository = libraryMemberRepository;
     }
 
+    //get all members
     public List<LibraryMember> getAllMembers() {
         return libraryMemberRepository.findAll();
     }
@@ -26,6 +27,7 @@ public class LibraryMemberService {
         return libraryMemberRepository.findById(id);
     }
 
+    //Create member and membership card
     public LibraryMember createMember(LibraryMember member) {
         member.setName(member.getName());
         member.setEmail(member.getEmail());
@@ -41,6 +43,7 @@ public class LibraryMemberService {
         return libraryMemberRepository.save(member);
     }
 
+    //Update member details
     public LibraryMember updateMember(Long id, LibraryMember updatedMember) {
         return libraryMemberRepository.findById(id).map(member -> {
             member.setName(updatedMember.getName());
@@ -49,6 +52,7 @@ public class LibraryMemberService {
         }).orElseThrow(() -> new RuntimeException("Member not found"));
     }
 
+    //delete member
     public void deleteMember(Long id) {
         libraryMemberRepository.deleteById(id);
     }
