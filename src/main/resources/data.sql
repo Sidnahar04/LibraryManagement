@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS librarymanagement;
+
 
 -- Insert Authors (Famous Authors in DSA)
 INSERT INTO author (name, biography) VALUES
