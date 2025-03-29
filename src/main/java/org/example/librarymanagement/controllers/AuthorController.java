@@ -5,6 +5,7 @@ import org.example.librarymanagement.entity.Author;
 import org.example.librarymanagement.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class AuthorController {
 
     // Create Author
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     public ResponseEntity<Author> createAuthor(@RequestBody @Valid Author author) {
         Author createdAuthor = authorService.createAuthor(author);
         return ResponseEntity.ok(createdAuthor);
@@ -25,6 +27,7 @@ public class AuthorController {
 
     // Get All Authors
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     public ResponseEntity<List<Author>> getAllAuthors() {
         List<Author> authors = authorService.getAllAuthors();
         return ResponseEntity.ok(authors);
@@ -32,6 +35,7 @@ public class AuthorController {
 
     // Get Author by ID
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     public ResponseEntity<Author> getAuthorById(@PathVariable Long id) {
         Author author = authorService.getAuthorById(id);
         return author != null ? ResponseEntity.ok(author) : ResponseEntity.notFound().build();
@@ -39,6 +43,7 @@ public class AuthorController {
 
     // Update Author
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody @Valid Author updatedAuthor) {
         Author author = authorService.updateAuthor(id, updatedAuthor);
         return author != null ? ResponseEntity.ok(author) : ResponseEntity.notFound().build();
@@ -46,6 +51,7 @@ public class AuthorController {
 
     // Delete Author
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         boolean isDeleted = authorService.deleteAuthor(id);
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
